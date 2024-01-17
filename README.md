@@ -6,12 +6,14 @@ This shell script calculates the word count for a text file provided as an argum
 
 1. **Clone the Repository:**
 
+First, clone the repository to your machine.
+
    ```bash
    git clone https://github.com/yeahdj/wordcount.git
    cd wordcount
    ```
 
-2. **Run the Script:**
+3. **Run the Script:**
 
 You can run the script immediately by using the shell command
 
