@@ -47,15 +47,16 @@ if ! clean_text=$(echo "$text" | tr -s '[:space:]' '\n' 2>/dev/null); then
     exit 1
 fi
 
-# This section 'cleans' our text file and passes it to a variable to be counted. 
-# We first echo the 'text' variable we created in the last step, then we use stream
-# editor to remove any blank lines, then we use awk to remove any leading or trailing 
-# whitespace. Then use translate to replace remaining spaces with newlines leaving us
-# with one word per line. Then we use translate again to remove punctuation, and then 
-# a third time to convert all uppercase characters to lowercase. Finally we use sort to 
-# sort the words alphabetically.
+# This section 'cleans' our text file by first echoing the 'text' variable created.
+# Then we use awk to remove any trailing or leading whitespace. Then we use transform
+# to replace any spaces in between words with a newline character. Leaving us
+# with a list of words, one per line. Then we use sed to remove any empty lines.
+# Then we use transform to remove any punctuation. Then we use transform to convert
+# all uppercase letters to lowercase. Finally we use sort to sort the words in
+# alphabetical order.
 
-clean_text=$(echo "$text" | tr -s '[:space:]' '\n' | tr -d '[:punct:]' | tr '[:upper:]' '[:lower:]' | sort)
+clean_text=$(echo "$text" | awk '{$1=$1;print}' | tr -s '[:space:]' '\n' | sed '/^[[:space:]]*$/d' | tr -d '[:punct:]' | tr '[:upper:]' '[:lower:]' | sort)
+
 
 # This section does our word count and echoes it to a variable to be printed.
 # First we echo the 'clean_text" variable we created in the last step, then we
