@@ -7,30 +7,52 @@
 
 #######################
 
+# Variables
+
+filename=$1
+
 # Check that the correct number of arguments have been provided. If no arguments are provided
 # or more than one argument is provided, print an error message and exit.
 
 if [ "$#" -eq 0 ]; then
-    echo "Oops! you didn't provide a file for me to check, please run this script again and provide a filename. Like this: $0 warandpeace.txt"
+    echo "Oops! you didn't provide a file for me to check, please run this script again and provide a filename. Like this: sh $0 warandpeace.txt"
     exit 1
 elif [ "$#" -gt 1 ]; then
-    echo "Sorry, I only know how to check one file at a time right now, please try again, but only provide one filename. Like this: $0 1984.txt"
+    echo "Sorry, I only know how to check one file at a time right now, please try again, but only provide one filename. Like this: sh $0 1984.txt"
     exit 1
 fi
 
-# Variables
+# Check that the argument provided is a valid filename, and that we have permission to read it
 
-filename=$1
+if [ ! -f "$filename" ]; then
+    echo "Oops, it looks like $filename doesn't point to a file. Please check you've entered the right path."
+    exit 1
+elif [ ! -r "$filename" ]; then
+    echo "Sorry, I cannot read $filename, please check that you have permission to access this file."
+    exit 1
+fi
+
+# Check that the file provided is not empty.
+
+if [ ! -s "$filename" ]; then
+    echo "$filename is empty, no words to count, I'll take the rest of today off! :D"
+fi
 
 # Pass the file contents to a variable to be manipulated in the next step
 
 text=$(<"$filename")
 
+if ! clean_text=$(echo "$text" | tr -s '[:space:]' '\n' 2>/dev/null); then
+    echo "Sorry, I can't process files of this type, I work best un-encoded text files like txt, yaml, etc, I can even work with .csv. But things like docx, pdf are not supported. Sorry!"
+    exit 1
+fi
+
 # This section 'cleans' our text file and passes it to a variable to be counted. 
-# We first echo the 'text' variable we created in the last step, then 
-# use translate to remove white space and organise each word in the file into it's 
-# own line. Then we use translate again to remove punctuation, and and then a third 
-# time to convert all uppercase characters to lowercase. Finally we use sort to 
+# We first echo the 'text' variable we created in the last step, then we use stream
+# editor to remove any blank lines, then we use awk to remove any leading or trailing 
+# whitespace. Then use translate to replace remaining spaces with newlines leaving us
+# with one word per line. Then we use translate again to remove punctuation, and then 
+# a third time to convert all uppercase characters to lowercase. Finally we use sort to 
 # sort the words alphabetically.
 
 clean_text=$(echo "$text" | tr -s '[:space:]' '\n' | tr -d '[:punct:]' | tr '[:upper:]' '[:lower:]' | sort)
