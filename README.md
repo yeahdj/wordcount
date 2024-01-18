@@ -21,15 +21,9 @@ First, clone the repository to your machine.
 
 2. **Run the Script:**
 
-You can run the script immediately by using the bash command
+Or you can make it executable if you prefer, it should be executable if you pulled it from git. Use chmod +x if you need to.
 
    ```bash
-   bash wordcount.sh your_text_file.txt
-   ```
-Or you can make it executable if you prefer
-
-   ```bash
-   chmod +x wordcount.sh
    ./wordcount.sh your_text_file.txt
    ```
 
@@ -42,7 +36,6 @@ The script will show an error if any of the following conditions are met.
 * If an argument is provided that doesn't point to a file
 * If there is a permissions error on the file provided in the argument
 * If the file is empty
-* If the script finds a file that it can't supprt (images, docx files, or any other encoded text files)
-
+* If the script finds a file that it can't supprt (images, docx files, any other encoded text files, anything that isn't raw text)
 
  Stay tuned for more improvements!
