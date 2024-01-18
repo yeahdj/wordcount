@@ -21,11 +21,13 @@ First, clone the repository to your machine.
 
 2. **Run the Script:**
 
-Or you can make it executable if you prefer, it should be executable if you pulled it from git. Use chmod +x if you need to.
+the script should be executable if you pulled it from git. Use chmod +x if you need to.
 
    ```bash
    ./wordcount.sh your_text_file.txt
    ```
+
+if you want to run it with a shell command, please take note of your operating system's native shell, or use 'bash' to execute the script.
 
 3. **Errors:**
 
